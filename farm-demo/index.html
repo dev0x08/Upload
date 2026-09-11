@@ -1,54 +1,5 @@
-<!doctype html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Farm Demo</title>
-  <link rel="stylesheet" href="./style.css" />
-</head>
-<body>
-  <main id="game">
-    <section class="farm-shell">
-      <header class="hud top-hud">
-        <div class="profile-card glass">
-          <div class="avatar">👨‍🌾</div>
-          <div class="profile-copy">
-            <strong>Trang trại</strong>
-            <div class="level-row"><span>LV <b id="level">1</b></span><div class="exp-track"><i id="expBar"></i></div></div>
-          </div>
-        </div>
-        <div class="currency glass"><span>🌿</span><b id="coins">120</b></div>
-      </header>
-
-      <aside class="side-actions">
-        <button class="round-action" id="shopBtn" aria-label="Cửa hàng">🏪<small>Cửa hàng</small></button>
-        <button class="round-action" id="resetBtn" aria-label="Làm mới">↻<small>Làm mới</small></button>
-      </aside>
-
-      <section class="island">
-        <div class="island-edge"></div>
-        <div class="decor decor-a">🌼</div>
-        <div class="decor decor-b">🪨</div>
-        <div class="decor decor-c">🌸</div>
-        <div class="fence fence-left">▥▥▥</div>
-        <div class="fence fence-right">▥▥▥</div>
-        <div id="plots" class="plots" aria-label="Các ô đất"></div>
-      </section>
-
-      <footer class="hud bottom-hud">
-        <div class="mission glass"><span class="mission-icon">📋</span><div><small>Nhiệm vụ</small><strong id="missionText">Thu hoạch 3 cây (0/3)</strong></div></div>
-        <div class="seed-tray glass" id="seedTray"></div>
-      </footer>
-    </section>
-  </main>
-
-  <div class="toast" id="toast"></div>
-
-  <dialog id="shopModal" class="shop-modal">
-    <div class="shop-head"><div><small>HẠT GIỐNG</small><h2>Cửa hàng nông trại</h2></div><button id="closeShop">✕</button></div>
-    <div class="shop-grid" id="shopGrid"></div>
-  </dialog>
-
-  <script src="./app.js"></script>
-</body>
-</html>
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Farm Demo</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:system-ui;background:linear-gradient(135deg,#a7ecff,#ffe4f2);overflow:hidden;color:#fff}.game{height:100dvh;min-height:600px;position:relative}.hud{position:absolute;z-index:5;left:20px;right:20px;display:flex;justify-content:space-between;align-items:center}.top{top:18px}.bottom{bottom:18px}.glass{background:#1f3c37b8;border:1px solid #ffffff35;backdrop-filter:blur(12px);box-shadow:0 12px 25px #24505c33}.profile,.coins,.mission,.seeds{border-radius:18px}.profile{display:flex;gap:10px;align-items:center;padding:7px 12px 7px 7px}.avatar{width:52px;height:52px;border-radius:14px;background:#ffe59a;display:grid;place-items:center;font-size:31px;border:2px solid #fff}.bar{width:120px;height:8px;background:#20342f;border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:#ffd35a;width:0}.coins{padding:10px 14px;font-weight:800}.island{position:absolute;left:50%;top:49%;transform:translate(-50%,-50%);width:min(900px,86vw);height:min(590px,68vh);border-radius:42% 38% 36% 40%/23% 26% 22% 27%;background:radial-gradient(circle,#a9ea61 0 42%,#7dd048 68%,#58a93a);box-shadow:0 25px 0 #43873d,0 40px 0 #27757e,0 48px 30px #24505c55}.plots{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:74%;display:grid;grid-template-columns:repeat(5,1fr);gap:14px}.plot{aspect-ratio:1.25;border:0;border-radius:18px;background:linear-gradient(145deg,#986642,#744629);box-shadow:inset 0 7px #ffffff10,0 7px #58361f55;position:relative;cursor:pointer}.plot.locked{background:linear-gradient(145deg,#8ed151,#65b43c)}.plot.locked:after{content:'🔒';position:absolute;inset:0;display:grid;place-items:center;font-size:24px}.crop{position:absolute;left:50%;bottom:18%;transform:translateX(-50%);font-size:42px;filter:drop-shadow(0 6px 3px #0004);animation:sway 2s ease-in-out infinite}.ready .crop{animation:pulse .8s ease-in-out infinite}.label{position:absolute;top:5px;left:50%;transform:translateX(-50%);font-size:9px;background:#233831cc;padding:3px 6px;border-radius:99px;white-space:nowrap}.grow{position:absolute;left:12%;right:12%;bottom:7px;height:5px;border-radius:8px;background:#2a211db0;overflow:hidden}.grow i{display:block;height:100%;background:#ffd45c}.wet:before{content:'💧';position:absolute;right:6px;top:5px}.mission{padding:10px 14px;font-weight:700}.seeds{padding:7px;display:flex;gap:7px}.seed{width:54px;height:54px;border:2px solid transparent;border-radius:15px;background:#ffffff14;color:#fff;font-size:27px;position:relative}.seed.active{border-color:#ffd95f;background:#ffd95f22}.seed b{position:absolute;right:3px;bottom:2px;background:#1d332dcc;border-radius:99px;font-size:9px;padding:2px 5px}.actions{position:absolute;z-index:6;right:24px;top:110px;display:grid;gap:12px}.actions button{width:62px;height:62px;border:0;border-radius:18px;background:linear-gradient(#fff5c2,#f5c34f);box-shadow:0 7px #8d6235;color:#49301f;font-size:26px}.toast{position:fixed;z-index:20;top:90px;left:50%;transform:translateX(-50%);background:#213e38ec;padding:9px 14px;border-radius:99px;opacity:0;transition:.2s}.toast.show{opacity:1}.shop{position:fixed;z-index:30;inset:0;background:#14343b88;display:none;place-items:center}.shop.open{display:grid}.panel{width:min(560px,92vw);background:#fff0cf;color:#493220;border-radius:24px;padding:18px}.shopgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.item{background:#fff9e9;border-radius:16px;padding:12px;text-align:center}.item .icon{font-size:37px}.item button{border:0;border-radius:10px;background:#69a83d;color:#fff;padding:8px;width:100%;font-weight:800}.close{float:right;border:0;border-radius:50%;width:34px;height:34px;background:#654531;color:#fff}@keyframes sway{50%{transform:translateX(-50%) rotate(5deg)}}@keyframes pulse{50%{transform:translateX(-50%) scale(1.13);filter:drop-shadow(0 0 10px #fff184)}}@media(max-width:720px){.island{width:110vw;height:64vh}.plots{grid-template-columns:repeat(4,1fr);gap:9px}.plot:nth-child(n+17){display:none}.mission{font-size:11px}.seed{width:46px;height:46px;font-size:23px}.seed:nth-child(n+4){display:none}.profile strong{font-size:14px}.bar{width:85px}.actions{right:10px}.actions button{width:52px;height:52px}.bottom{left:10px;right:10px}.top{left:10px;right:10px}}
+</style></head><body><main class="game"><header class="hud top"><div class="profile glass"><div class="avatar">👨‍🌾</div><div><strong>Trang trại</strong><div style="font-size:11px">LV <b id="lv">1</b></div><div class="bar"><i id="xp"></i></div></div></div><div class="coins glass">🌿 <b id="coin">120</b></div></header><aside class="actions"><button id="shopBtn">🏪</button><button id="resetBtn">↻</button></aside><section class="island"><div class="plots" id="plots"></div></section><footer class="hud bottom"><div class="mission glass" id="mission">📋 Thu hoạch 3 cây (0/3)</div><div class="seeds glass" id="seeds"></div></footer></main><div class="toast" id="toast"></div><div class="shop" id="shop"><div class="panel"><button class="close" id="close">✕</button><h2>Cửa hàng hạt giống</h2><div class="shopgrid" id="shopgrid"></div></div></div><script>
+const C={corn:{n:'Bắp',e:'🌽',cost:6,reward:15,g:12,xp:8},carrot:{n:'Cà rốt',e:'🥕',cost:8,reward:21,g:16,xp:10},flower:{n:'Hoa',e:'🌷',cost:12,reward:30,g:22,xp:14},tomato:{n:'Cà chua',e:'🍅',cost:16,reward:38,g:28,xp:18}},S={coin:120,lv:1,xp:0,sel:'corn',har:0,inv:{corn:6,carrot:4,flower:3,tomato:2},plots:[]};try{Object.assign(S,JSON.parse(localStorage.farmDemo||'{}'))}catch{}if(!S.plots.length)S.plots=Array.from({length:20},(_,i)=>({u:i<13,c:null,t:0,w:false}));const $=s=>document.querySelector(s),plots=$('#plots'),seeds=$('#seeds'),toast=$('#toast');function save(){localStorage.farmDemo=JSON.stringify(S)}function msg(x){toast.textContent=x;toast.classList.add('show');clearTimeout(msg.t);msg.t=setTimeout(()=>toast.classList.remove('show'),1500)}function p(o){if(!o.c)return 0;let c=C[o.c];return Math.min(1,(Date.now()-o.t)/(c.g*1000/(o.w?.8:1)))}function xp(n){S.xp+=n;while(S.xp>=100){S.xp-=100;S.lv++;msg('🎉 Lên cấp '+S.lv)}}function clickPlot(i){let o=S.plots[i];if(!o.u)return msg('Ô đất chưa mở khóa');if(o.c){if(p(o)>=1){let c=C[o.c];S.coin+=c.reward;xp(c.xp);S.har++;Object.assign(o,{c:null,t:0,w:false});msg('Thu hoạch +'+c.reward+' 🌿')}else if(!o.w){o.w=true;msg('💧 Đã tưới, cây lớn nhanh hơn')}else msg('Cây đang lớn…');save();return render()}if(!S.inv[S.sel])return msg('Hết hạt giống');S.inv[S.sel]--;Object.assign(o,{c:S.sel,t:Date.now(),w:false});save();render()}function renderPlots(){plots.innerHTML=S.plots.map((o,i)=>{if(!o.u)return `<button class="plot locked" onclick="clickPlot(${i})"></button>`;if(!o.c)return `<button class="plot" onclick="clickPlot(${i})"></button>`;let c=C[o.c],q=p(o),r=q>=1,icon=r?c.e:q<.34?'🌱':q<.72?'🌿':c.e;return `<button class="plot ${r?'ready':''} ${o.w?'wet':''}" onclick="clickPlot(${i})"><span class="label">${r?'THU HOẠCH':Math.ceil((1-q)*c.g/(o.w?.8:1))+'s'}</span><span class="crop">${icon}</span><span class="grow"><i style="width:${q*100}%"></i></span></button>`}).join('')}function render(){$('#coin').textContent=S.coin;$('#lv').textContent=S.lv;$('#xp').style.width=S.xp+'%';$('#mission').textContent='📋 Thu hoạch 3 cây ('+Math.min(3,S.har)+'/3)';seeds.innerHTML=Object.entries(C).map(([id,c])=>`<button class="seed ${S.sel===id?'active':''}" onclick="S.sel='${id}';render()">${c.e}<b>${S.inv[id]||0}</b></button>`).join('');renderPlots()}$('#shopgrid').innerHTML=Object.entries(C).map(([id,c])=>`<div class="item"><div class="icon">${c.e}</div><b>${c.n}</b><div>${c.g}s • bán ${c.reward} 🌿</div><button onclick="buy('${id}')">Mua 3 hạt • ${c.cost*3} 🌿</button></div>`).join('');function buy(id){let c=C[id],price=c.cost*3;if(S.coin<price)return msg('Không đủ tiền');S.coin-=price;S.inv[id]=(S.inv[id]||0)+3;save();render();msg('Đã mua '+c.n)}$('#shopBtn').onclick=()=>$('#shop').classList.add('open');$('#close').onclick=()=>$('#shop').classList.remove('open');$('#resetBtn').onclick=()=>{if(confirm('Đặt lại demo?')){localStorage.removeItem('farmDemo');location.reload()}};render();setInterval(renderPlots,500)
+</script></body></html>
