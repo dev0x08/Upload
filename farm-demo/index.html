@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Farm Demo</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <main id="game">
+    <section class="farm-shell">
+      <header class="hud top-hud">
+        <div class="profile-card glass">
+          <div class="avatar">👨‍🌾</div>
+          <div class="profile-copy">
+            <strong>Trang trại</strong>
+            <div class="level-row"><span>LV <b id="level">1</b></span><div class="exp-track"><i id="expBar"></i></div></div>
+          </div>
+        </div>
+        <div class="currency glass"><span>🌿</span><b id="coins">120</b></div>
+      </header>
+
+      <aside class="side-actions">
+        <button class="round-action" id="shopBtn" aria-label="Cửa hàng">🏪<small>Cửa hàng</small></button>
+        <button class="round-action" id="resetBtn" aria-label="Làm mới">↻<small>Làm mới</small></button>
+      </aside>
+
+      <section class="island">
+        <div class="island-edge"></div>
+        <div class="decor decor-a">🌼</div>
+        <div class="decor decor-b">🪨</div>
+        <div class="decor decor-c">🌸</div>
+        <div class="fence fence-left">▥▥▥</div>
+        <div class="fence fence-right">▥▥▥</div>
+        <div id="plots" class="plots" aria-label="Các ô đất"></div>
+      </section>
+
+      <footer class="hud bottom-hud">
+        <div class="mission glass"><span class="mission-icon">📋</span><div><small>Nhiệm vụ</small><strong id="missionText">Thu hoạch 3 cây (0/3)</strong></div></div>
+        <div class="seed-tray glass" id="seedTray"></div>
+      </footer>
+    </section>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <dialog id="shopModal" class="shop-modal">
+    <div class="shop-head"><div><small>HẠT GIỐNG</small><h2>Cửa hàng nông trại</h2></div><button id="closeShop">✕</button></div>
+    <div class="shop-grid" id="shopGrid"></div>
+  </dialog>
+
+  <script src="./app.js"></script>
+</body>
+</html>
