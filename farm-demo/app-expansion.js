@@ -11,7 +11,6 @@
   }
   function canBuy(){return S.lv>=REQ_LV&&S.coin>=COST}
   function syncExpansion(){for(let i=0;i<COUNT;i++)S.expansionPlots[i]=S.plots[START+i]}
-  function isExpansionPlot(p){const i=S.plots.indexOf(p);return i>=START&&i<START+COUNT}
   const baseSave=window.save;
   window.save=function(){ensureExpansion();syncExpansion();return baseSave()};
 
@@ -28,21 +27,6 @@
     S.coin-=COST;S.expansion.unlocked=true;S.expansion.boughtAt=now();
     for(let i=0;i<COUNT;i++){S.expansionPlots[i].unlocked=true;S.plots[START+i]=S.expansionPlots[i]}
     save();msg('🌄 Đã mở Khu đất phía Đông');view='exp';render()
-  };
-
-  const baseTick=window.tick;
-  window.tick=function(p){
-    if(!isExpansionPlot(p))return baseTick(p);
-    const before=p.g||0,st=si(prog(p)),c=C[p.crop];const r=baseTick(p),delta=(p.g||0)-before;
-    if(delta>0&&st<4&&c)p.g=Math.min(before+delta/1.10,ENDS[st]*c[4]*1000);
-    return r
-  };
-  const baseRisk=window.risk;
-  window.risk=function(p,q){
-    if(!isExpansionPlot(p))return baseRisk(p,q);
-    const st=si(q);if(!p?.crop||st<1||st>3||p.check.includes(st))return;
-    p.check.push(st);const c=C[p.crop],protect=p.fert==='protect'?.35:1;
-    if(Math.random()<.08*W[S.weather][3]*(S.weather===c[6]?.75:1)*protect)p.prob=Math.random()<.65?'pest':'disease'
   };
 
   const baseClick=window.clickPlot;
@@ -67,11 +51,7 @@
     document.querySelectorAll('#plots .plot').forEach((el,idx)=>{
       const show=view==='main'?idx<START:idx>=START&&idx<START+COUNT;
       el.style.display=show?'':'none';
-      if(show&&view==='exp'){
-        el.classList.add('expPlot');
-        el.querySelector('.zoneMark')?.remove();
-        el.removeAttribute('data-zone');el.removeAttribute('title')
-      }
+      if(show&&view==='exp')el.classList.add('expPlot')
     });
     return r
   };
