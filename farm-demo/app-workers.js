@@ -62,6 +62,7 @@
     if(!active('harvest'))return false;
     for(const {p} of managedPlots()){
       if(!p.crop)continue;tick(p);let q=prog(p);mutate(p,q);risk(p,q);if(q<1||p.prob)continue;
+      if(typeof canStore==='function'&&!canStore(1))return false;
       const id=p.crop,c=C[id],k=p.mut?'m_'+id:id;
       S.inv.prod[k]=(S.inv.prod[k]||0)+1;S.stats.harvest=(S.stats.harvest||0)+1;addXP(c[5]*5);
       if(typeof cropDiscovered==='function'){S.discovery=S.discovery||{};S.discovery.crops=S.discovery.crops||{};S.discovery.crops[id]=1}
