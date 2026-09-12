@@ -7,12 +7,9 @@
     moist:{icon:'💧',name:'Đất giữ ẩm',price:280,desc:'20% cơ hội tự giữ đủ nước khi sang giai đoạn mới',speed:1,risk:1,mut:1,moist:.20}
   };
 
-  function ensureSoils(){
-    for(const p of S.plots||[]){if(p&&(!p.soil||!SOILS[p.soil]))p.soil='normal'}
-    if(Array.isArray(S.expansionPlots))for(const p of S.expansionPlots){if(p&&(!p.soil||!SOILS[p.soil]))p.soil='normal'}
-  }
+  function ensureSoils(){for(const p of S.plots||[]){if(p&&(!p.soil||!SOILS[p.soil]))p.soil='normal'}}
   function soilOf(p){ensureSoils();return SOILS[p?.soil]||SOILS.normal}
-  function plotNo(i){return i<20?'Ô '+(i+1):'Ô Đông '+(i-19)}
+  function plotNo(i){return typeof window.plotDisplayName==='function'?window.plotDisplayName(i):(i<20?'Ô '+(i+1):'Ô '+(i+1))}
 
   const baseTick=window.tick;
   window.tick=function(p){
@@ -70,9 +67,7 @@
     $('#mb').innerHTML=`<div class="soilIntro">Đất hiện tại: <b>${soilOf(p).icon} ${soilOf(p).name}</b>. Chọn loại mới để cải tạo ô đất này.</div><div class="soilChoices">${Object.entries(SOILS).filter(([k])=>k!=='normal').map(([k,s])=>`<div class="soilChoice ${p.soil===k?'owned':''}"><div class="soilChoiceIcon">${s.icon}</div><div><b>${s.name}</b><small>${s.desc}</small><span>${s.price}🌿</span></div><button class="primary" onclick="askBuySoil(${i},'${k}')" ${p.soil===k?'disabled':''}>${p.soil===k?'Đang dùng':'Mua'}</button></div>`).join('')}</div><button class="ghost" style="width:100%;margin-top:10px" onclick="openSoils()">← Quay lại</button>`
   };
 
-  window.askBuySoil=function(i,k){
-    const s=SOILS[k];if(!s)return;confirmBox('Xác nhận cải tạo đất',confirmRows(s.name,1,s.price,s.price),`buySoil(${i},'${k}')`)
-  };
+  window.askBuySoil=function(i,k){const s=SOILS[k];if(!s)return;confirmBox('Xác nhận cải tạo đất',confirmRows(s.name,1,s.price,s.price),`buySoil(${i},'${k}')`)};
   window.buySoil=function(i,k){
     ensureSoils();const p=S.plots?.[i],s=SOILS[k];if(!p?.unlocked||!s||k==='normal')return;
     if(S.coin<s.price)return msg('Không đủ tiền');S.coin-=s.price;p.soil=k;save();render();chooseSoil(i);msg('🌱 Đã cải tạo '+plotNo(i))
@@ -93,9 +88,7 @@
   const baseCare=window.care;
   window.care=function(i){
     const r=baseCare(i),p=S.plots?.[i],s=soilOf(p),b=$('#mb');
-    if(b&&p&&!b.querySelector('.soilCare')){
-      const hero=b.querySelector('.careHero');hero?.insertAdjacentHTML('afterend',`<div class="soilCare"><b>${s.icon} ${s.name}</b><span>${s.desc}</span></div>`)
-    }
+    if(b&&p&&!b.querySelector('.soilCare')){const hero=b.querySelector('.careHero');hero?.insertAdjacentHTML('afterend',`<div class="soilCare"><b>${s.icon} ${s.name}</b><span>${s.desc}</span></div>`)}
     return r
   };
 
