@@ -1,7 +1,7 @@
 (function(){
   const modal=document.getElementById('modal'),panel=()=>document.querySelector('#modal .panel'),title=()=>document.getElementById('mt'),body=()=>document.getElementById('mb');
   const VIEW_RULES=[
-    [/Chăm sóc cây/i,'care'],[/Tài khoản/i,'account'],[/Cửa hàng/i,'shop'],[/Kho/i,'inv'],[/Đơn hàng/i,'orders'],[/Nhiệm vụ/i,'missions'],[/Danh hiệu/i,'titles'],[/Thành tựu/i,'achievements'],[/Quản lý nông trại/i,'management'],[/Chợ nông sản/i,'market'],[/Cẩm nang/i,'guide'],[/Mở rộng nông trại/i,'expansion'],[/Nhân công/i,'workers'],[/Dụng cụ/i,'tools'],[/Đất dinh dưỡng|Cải tạo đất/i,'soil'],[/Kho chứa|Nâng cấp kho/i,'storage'],[/Sự kiện nông trại/i,'event'],[/Dự báo thời tiết/i,'weather'],[/Test/i,'test']
+    [/Chăm sóc cây/i,'care'],[/Tài khoản/i,'account'],[/Cửa hàng/i,'shop'],[/Kho chứa|Nâng cấp kho/i,'storage'],[/^Kho$/i,'inv'],[/Đơn hàng/i,'orders'],[/Nhiệm vụ/i,'missions'],[/Danh hiệu/i,'titles'],[/Thành tựu/i,'achievements'],[/Quản lý nông trại/i,'management'],[/Chợ nông sản/i,'market'],[/Cẩm nang/i,'guide'],[/Mở rộng nông trại/i,'expansion'],[/Nhân công/i,'workers'],[/Dụng cụ/i,'tools'],[/Đất dinh dưỡng|Cải tạo đất/i,'soil'],[/Sự kiện nông trại/i,'event'],[/Dự báo thời tiết/i,'weather'],[/Test/i,'test']
   ];
   const HINTS={
     care:['🌿','Chăm sóc cây','Theo dõi tiến độ và chỉ hiện thao tác cây đang cần.'],
@@ -16,7 +16,7 @@
     weather:['🌤️','Thời tiết','Thời tiết hiện tại tác động trực tiếp đến tốc độ và rủi ro cây trồng.'],
     test:['🔧','Công cụ kiểm thử','Chỉ dùng để kiểm tra nhanh gameplay trong giai đoạn phát triển.']
   };
-  function detect(){const text=title()?.textContent||'';for(const [rx,name] of VIEW_RULES)if(rx.test(text))return name;return ''}
+  function detect(){const text=(title()?.textContent||'').trim();for(const [rx,name] of VIEW_RULES)if(rx.test(text))return name;return ''}
   function ensureHint(view){const mb=body(),hint=HINTS[view];if(!mb||!hint||mb.querySelector('.uxFinalHint'))return;const el=document.createElement('div');el.className='uxScreenHint uxFinalHint';el.innerHTML=`<span>${hint[0]}</span><div><b>${hint[1]}</b><small>${hint[2]}</small></div>`;mb.prepend(el)}
   function decorate(){const p=panel();if(!p)return;const view=detect()||p.dataset.view||'';if(view)p.dataset.view=view;ensureHint(view);if(view==='care'){const hero=body()?.querySelector('.careHero');if(hero&&!hero.querySelector('.careStatusDot'))hero.insertAdjacentHTML('beforeend','<span class="careStatusDot" aria-hidden="true"></span>')}if(view==='account'){const note=body()?.querySelector('.authSaveNote');if(note&&!note.dataset.ux){note.dataset.ux='1';note.insertAdjacentHTML('afterbegin','<b style="display:block;margin-bottom:3px">☁️ Trạng thái lưu</b>')}}}
   if(title()){new MutationObserver(()=>requestAnimationFrame(decorate)).observe(title(),{childList:true,subtree:true,characterData:true})}
