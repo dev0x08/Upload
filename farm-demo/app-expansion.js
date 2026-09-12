@@ -23,7 +23,7 @@
       if(!Array.isArray(st.plots))st.plots=[];
       if(id==='east'&&oldEast&&st.plots.length===0)st.plots=oldEast.slice(0,a.count);
       while(st.plots.length<a.count){const n=st.plots.length;st.plots.push(newPlot(!!st.unlocked&&n<a.free))}
-      st.plots=st.plots.slice(0,a.count).map((p,n)=>({...newPlot(false),...p,unlocked:!!p.unlocked,last:now()}));
+      st.plots=st.plots.slice(0,a.count).map((p,n)=>({...newPlot(false),...p,unlocked:!!p.unlocked,last:p.last||now()}));
       if(st.unlocked&&!st.plots.some(p=>p.unlocked))for(let n=0;n<a.free;n++)st.plots[n].unlocked=true;
       while(S.plots.length<a.start+a.count)S.plots.push(newPlot(false));
       for(let n=0;n<a.count;n++)S.plots[a.start+n]=st.plots[n]
