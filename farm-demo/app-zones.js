@@ -17,7 +17,7 @@
     if(!p?.crop)return baseTick(p);
     const st=si(prog(p)),before=p.g||0,c=C[p.crop];
     const r=baseTick(p),delta=(p.g||0)-before,m=speedMul(p);
-    if(delta>0&&m>1&&st<4&&c){p.g=Math.min((p.g||0)+delta*(m-1),ENDS[st]*c[4]*1000)}
+    if(delta>0&&m>1&&st<4&&c)p.g=Math.min((p.g||0)+delta*(m-1),ENDS[st]*c[4]*1000);
     return r
   };
 
@@ -58,7 +58,9 @@
   window.renderPlots=function(){
     const r=baseRenderPlots();
     document.querySelectorAll('#plots .plot').forEach((el,i)=>{
-      const z=ZONES[zoneIndex(i)];el.classList.add('zone-'+z.id);el.dataset.zone=z.name;el.title=z.name+' — '+z.desc;
+      const p=S.plots?.[i],z=ZONES[zoneIndex(i)];
+      if(p?.unlocked&&!p.crop)el.classList.remove('next','wait');
+      el.classList.add('zone-'+z.id);el.dataset.zone=z.name;el.title=z.name+' — '+z.desc;
       if(!el.querySelector('.zoneMark'))el.insertAdjacentHTML('beforeend',`<span class="zoneMark">${z.icon}</span>`)
     });return r
   };
@@ -75,7 +77,7 @@
 
   window.openZones=function(){
     $('#modal').classList.add('open');$('#mt').textContent='🌾 Khu đất chuyên canh';
-    $('#mb').innerHTML=`<div class="zoneIntro">Mỗi 4 ô đất thuộc một khu có lợi thế riêng. Bạn có thể trồng tự do trên bất kỳ ô đã mở; chỉ việc <b>mua ô đất mới</b> vẫn bắt buộc theo thứ tự.</div><div class="zoneList">${ZONES.map((z,i)=>`<div class="zoneCard zone-${z.id}"><div class="zoneIcon">${z.icon}</div><div><b>${z.name}</b><small>${z.range}</small><p>${z.desc}</p></div></div>`).join('')}</div>`
+    $('#mb').innerHTML=`<div class="zoneIntro">Mỗi 4 ô đất thuộc một khu có lợi thế riêng. Bạn có thể trồng tự do trên bất kỳ ô đã mở; chỉ việc <b>mua ô đất mới</b> vẫn bắt buộc theo thứ tự.</div><div class="zoneList">${ZONES.map(z=>`<div class="zoneCard zone-${z.id}"><div class="zoneIcon">${z.icon}</div><div><b>${z.name}</b><small>${z.range}</small><p>${z.desc}</p></div></div>`).join('')}</div>`
   };
 
   const baseOpenModal=window.openModal;
