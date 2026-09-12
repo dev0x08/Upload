@@ -90,7 +90,7 @@
   window.tick=function(p){const before=p?.g||0,st=p?.crop?si(prog(p)):0,r=BASE_TICK(p);const e=eventInfo();if(e?.id==='growth'&&p?.crop&&st<4&&p.g>before){const cap=ENDS[st]*C[p.crop][4]*1000;p.g=Math.min(cap,p.g+(p.g-before)*.20)}return r};
   window.spend=function(){const ok=BASE_SPEND();if(ok&&eventInfo()?.id==='energy'&&Math.random()<.25){S.en=Math.min(S.max,S.en+1);msg('⚡ Sự kiện hoàn lại 1 năng lượng')}return ok};
   window.risk=function(p,q){const before=p?.prob,r=BASE_RISK(p,q);if(eventInfo()?.id==='pest'&&p?.crop&&!before&&!p.prob){const st=si(q);if(st>=1&&st<=3&&Math.random()<.035)p.prob=Math.random()<.7?'pest':'disease'}return r};
-  window.doneOrder=function(i){ensureProgression();const before=S.coin||0,market=eventInfo()?.id==='market',title=activeTitle(),r=BASE_DONE(i),gain=Math.max(0,(S.coin||0)-before);if(gain>0){const bonus=Math.floor(gain*((market?.id==='market'?0:.0)+(market?0.20:0)+title.bonus));if(bonus>0){S.coin+=bonus;save();render();msg('💰 Thưởng thêm '+bonus+'🌿')}}return r};
+  window.doneOrder=function(i){ensureProgression();const before=S.coin||0,marketActive=eventInfo()?.id==='market',title=activeTitle(),r=BASE_DONE(i),gain=Math.max(0,(S.coin||0)-before);if(gain>0){const rate=(marketActive?.valueOf()?0.20:0)+title.bonus,bonus=Math.floor(gain*rate);if(bonus>0){S.coin+=bonus;save();render();msg('💰 Thưởng thêm '+bonus+'🌿')}}return r};
   window.render=function(){ensureProgression();const r=BASE_RENDER();paintProgression();return r};
 
   ensureProgression();save();setTimeout(()=>{try{render()}catch(e){console.error(e)}},0);
