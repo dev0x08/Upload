@@ -2,8 +2,6 @@ name: Build iOS IPA
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ main ]
 
 permissions:
   contents: read
@@ -16,14 +14,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Extract reconstructed source
-        run: unzip -q project-source.zip -d .
-
       - name: Install XcodeGen
         run: brew install xcodegen
 
       - name: Generate Xcode project
         run: xcodegen generate
+
+      - name: Show Xcode version
+        run: xcodebuild -version
 
       - name: Build unsigned app
         run: |
@@ -55,3 +53,4 @@ jobs:
           name: xcodebuild-log-${{ github.run_number }}
           path: ${{ runner.temp }}/xcodebuild.log
           if-no-files-found: ignore
+          retention-days: 7

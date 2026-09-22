@@ -1,12 +1,26 @@
 # SpamSMSVip Rebuild
 
-Reconstructed Objective-C/UIKit project prepared for building on GitHub Actions without owning a Mac.
+Source has been expanded directly in this repository so files can be edited and pushed normally.
 
-## Build
-1. Open **Actions**.
-2. Run **Build iOS IPA**.
-3. Download the artifact `SpamSMSVip-unsigned-<run number>`.
+- Native Objective-C + UIKit reconstruction.
+- Main code is under `SpamSMSVip/`.
+- The network layer is a mock/test implementation and does not reproduce third-party OTP/SMS traffic.
+- IPA build is **manual only**. Pushing code does not trigger a build.
+- When an IPA is needed, run **Actions → Build iOS IPA → Run workflow**.
 
-The repository stores the reconstructed source in `project-source.zip`; the workflow extracts it before generating the Xcode project with XcodeGen.
+## Structure
 
-The network layer in this rebuild is a mock/test implementation and does not reproduce third-party OTP/SMS traffic.
+```
+SpamSMSVip/
+├── AppDelegate.h/.m
+├── SceneDelegate.h/.m
+├── ViewController.h/.m
+├── OpenLinkPopup.h/.m
+├── MockRequestService.h/.m
+├── Info.plist
+├── main.m
+└── Resources/
+project.yml
+scripts/build_unsigned_ipa.sh
+.github/workflows/build-ios.yml
+```
