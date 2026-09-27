@@ -1,0 +1,42 @@
+name: Unpack GLSH IPA
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'imports/GLSH_1.0.6_unpacked.zip'
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Unpack archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f imports/GLSH_1.0.6_unpacked.zip
+          rm -rf GLSH_1.0.6_unpacked/Payload
+          mkdir -p GLSH_1.0.6_unpacked
+          unzip -o imports/GLSH_1.0.6_unpacked.zip -d /tmp/glsh
+          if [ -d /tmp/glsh/GLSH_1.0.6_unpacked ]; then
+            cp -a /tmp/glsh/GLSH_1.0.6_unpacked/. GLSH_1.0.6_unpacked/
+          else
+            cp -a /tmp/glsh/. GLSH_1.0.6_unpacked/
+          fi
+          rm -f imports/GLSH_1.0.6_unpacked.zip
+      - name: Commit unpacked files
+        shell: bash
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add -A GLSH_1.0.6_unpacked imports/GLSH_1.0.6_unpacked.zip
+          if git diff --cached --quiet; then
+            echo "No changes"
+            exit 0
+          fi
+          git commit -m "Unpack GLSH 1.0.6 decrypted IPA"
+          git push
